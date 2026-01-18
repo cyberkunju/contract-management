@@ -1,0 +1,23 @@
+.page {
+    text-align: center;
+    padding: var(--space-16) var(--space-6);
+}
+
+.code {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary-600);
+}
+
+.title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+    margin: var(--space-4) 0 var(--space-2);
+}
+
+.description {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+}

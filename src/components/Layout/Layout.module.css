@@ -1,0 +1,113 @@
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-background);
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background-color: var(--color-paper);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.headerContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-3) var(--space-5);
+}
+
+.logo {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-ink);
+}
+
+.logo:hover {
+    opacity: 0.7;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+}
+
+.navLink {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+    padding: var(--space-1) 0;
+}
+
+.navLink:hover {
+    color: var(--color-ink);
+}
+
+.navLinkActive {
+    color: var(--color-ink);
+    font-weight: var(--font-semibold);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.main {
+    flex: 1;
+    width: 100%;
+    padding: var(--space-5);
+}
+
+.pageHeader {
+    margin-bottom: var(--space-5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.pageTitle {
+    font-family: var(--font-sans);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-tighter);
+    line-height: 1;
+    color: var(--color-ink);
+}
+
+.pageDescription {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+
+.pageActions {
+    display: flex;
+    gap: var(--space-3);
+}
+
+@media (max-width: 640px) {
+    .headerContent {
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .main {
+        padding: var(--space-4);
+    }
+
+    .pageHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pageTitle {
+        font-size: var(--text-2xl);
+    }
+}

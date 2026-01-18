@@ -1,0 +1,1 @@
+export { SignaturePad } from './SignaturePad';

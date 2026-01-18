@@ -1,0 +1,61 @@
+.selectWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+}
+
+.required::after {
+    content: ' *';
+    color: var(--color-error-500);
+}
+
+.select {
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    padding-right: var(--space-8);
+    font-size: var(--text-sm);
+    color: var(--color-black);
+    background-color: var(--color-white);
+    /* Custom Arrow - Simple Chevron */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5'%3E%3Cpath d='M3 4.5l3 3 3-3'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--space-3) center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    appearance: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.select:hover:not(:disabled) {
+    border-color: var(--color-gray-400);
+}
+
+.select:focus {
+    outline: none;
+    border-color: var(--color-black);
+    box-shadow: 0 0 0 1px var(--color-black);
+}
+
+.select:disabled {
+    background-color: var(--color-gray-50);
+    color: var(--color-gray-400);
+    cursor: not-allowed;
+}
+
+.error .select {
+    border-color: var(--color-error-500);
+}
+
+.errorMessage {
+    font-size: var(--text-xs);
+    color: var(--color-error-500);
+}

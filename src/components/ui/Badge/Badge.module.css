@@ -1,0 +1,74 @@
+/* 
+ * Badge - Clean status indicators
+ */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-wash);
+    color: var(--color-text-secondary);
+}
+
+/* Status variations with colored backgrounds */
+.created {
+    background-color: #f3f4f6;
+    color: #6b7280;
+}
+
+.approved {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.sent {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.signed {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.locked {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+.revoked {
+    background-color: #fee2e2;
+    color: #991b1b;
+    text-decoration: line-through;
+}
+
+.default {
+    background-color: var(--color-wash);
+    color: var(--color-text-secondary);
+}
+
+.success {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.warning {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.error {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.info {
+    background-color: #dbeafe;
+    color: #1e40af;
+}

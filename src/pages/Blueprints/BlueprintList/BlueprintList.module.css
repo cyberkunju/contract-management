@@ -1,0 +1,76 @@
+/* 
+ * Blueprint List - Compact grid
+ */
+
+.blueprintGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+}
+
+.blueprintCard {
+    transition: border-color var(--transition-fast);
+}
+
+.blueprintCard:hover {
+    border-color: var(--color-ink);
+}
+
+.blueprintMeta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+}
+
+.metaItem {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.metaIcon {
+    width: 14px;
+    height: 14px;
+}
+
+.fieldCount {
+    font-weight: var(--font-bold);
+    color: var(--color-ink);
+}
+
+.cardActions {
+    display: flex;
+    gap: var(--space-1);
+}
+
+/* Empty state */
+.emptyState {
+    text-align: center;
+    padding: var(--space-10) 0;
+}
+
+.emptyIcon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto var(--space-3);
+    color: var(--color-gray-300);
+}
+
+.emptyTitle {
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-ink);
+    margin-bottom: var(--space-1);
+}
+
+.emptyDescription {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+}

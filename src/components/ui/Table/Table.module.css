@@ -1,0 +1,101 @@
+/* 
+ * Table - Compact rows
+ */
+
+.tableWrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+}
+
+/* Header */
+.table th {
+    padding: var(--space-3) var(--space-3);
+    text-align: left;
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-ink);
+    border-bottom: 2px solid var(--color-ink);
+    white-space: nowrap;
+}
+
+.table th:first-child {
+    padding-left: 0;
+}
+
+.table th:last-child {
+    padding-right: 0;
+}
+
+/* Body rows */
+.table td {
+    padding: var(--space-3);
+    font-weight: var(--font-medium);
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+.table td:first-child {
+    padding-left: 0;
+}
+
+.table td:last-child {
+    padding-right: 0;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Hover */
+.table tbody tr:hover {
+    background-color: var(--color-wash);
+}
+
+/* Clickable row */
+.clickable {
+    cursor: pointer;
+}
+
+/* Actions column */
+.actions {
+    display: flex;
+    gap: var(--space-1);
+    justify-content: flex-end;
+}
+
+/* Empty state */
+.emptyState {
+    padding: var(--space-10) var(--space-4);
+    text-align: center;
+}
+
+.emptyIcon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto var(--space-3);
+    color: var(--color-gray-300);
+}
+
+.emptyTitle {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-ink);
+    margin-bottom: var(--space-1);
+}
+
+.emptyDescription {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+}
