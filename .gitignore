@@ -37,3 +37,11 @@ yarn-error.log*
 # Dev config
 .prettierrc
 eslint.config.js
+
+# Agent
+.agent/
+.agent
+
+# Misc
+.DS_Store
+Thumbs.db

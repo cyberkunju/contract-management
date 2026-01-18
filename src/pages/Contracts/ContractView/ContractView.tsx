@@ -130,7 +130,23 @@ export function ContractView() {
     };
 
     const renderField = (field: ContractField) => {
-        const disabled = !canEdit && field.type !== 'SIGNATURE';
+        // Determine if field is disabled based on role and status
+        const isManagerField = !field.editableBy || field.editableBy === 'manager' || field.editableBy === 'both';
+        const isClientField = field.editableBy === 'client' || field.editableBy === 'both';
+
+        const isCreated = contract.status === 'CREATED';
+        const isSent = contract.status === 'SENT';
+
+        let isDisabled = true;
+        if (isCreated) {
+            // Manager View (Draft): Manager fields enabled, Client fields disabled
+            isDisabled = !isManagerField;
+        } else if (isSent) {
+            // Client View (Received): Client fields enabled, Manager fields disabled
+            isDisabled = !isClientField;
+        }
+        // All other states (APPROVED, SIGNED, LOCKED, REVOKED) -> Disabled
+
         const signatureStatus = getSignatureStatus();
 
         switch (field.type) {
@@ -143,7 +159,7 @@ export function ContractView() {
                         onChange={(e) => handleFieldChange(field.id, e.target.value)}
                         placeholder={field.placeholder}
                         required={field.required}
-                        disabled={disabled}
+                        disabled={isDisabled}
                     />
                 );
 
@@ -156,7 +172,7 @@ export function ContractView() {
                         value={(field.value as string) ?? ''}
                         onChange={(e) => handleFieldChange(field.id, e.target.value)}
                         required={field.required}
-                        disabled={disabled}
+                        disabled={isDisabled}
                     />
                 );
 
@@ -168,9 +184,9 @@ export function ContractView() {
                         value={field.value as string | null}
                         onChange={(value) => handleFieldChange(field.id, value)}
                         required={field.required}
-                        disabled={true}
+                        disabled={isDisabled}
                         signatureStatus={signatureStatus}
-                        signerName="Client"
+                        signerName={field.editableBy === 'client' ? "Client" : "User"}
                     />
                 );
 
@@ -183,7 +199,7 @@ export function ContractView() {
                             className={styles.checkboxInput}
                             checked={(field.value as boolean) ?? false}
                             onChange={(e) => handleFieldChange(field.id, e.target.checked)}
-                            disabled={!canEdit}
+                            disabled={isDisabled}
                         />
                         <label htmlFor={field.id} className={styles.checkboxLabel}>
                             {field.label}

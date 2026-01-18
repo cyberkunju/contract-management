@@ -64,6 +64,7 @@ export const useContractStore = create<ContractState>()(
                     label: f.label,
                     position: f.position,
                     required: f.required,
+                    editableBy: f.editableBy,
                     placeholder: f.placeholder,
                     value: f.type === 'CHECKBOX' ? (f.defaultChecked ?? false) : null,
                 }));

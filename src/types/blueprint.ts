@@ -14,6 +14,9 @@ export const FIELD_TYPE_LABELS: Record<FieldType, string> = {
     CHECKBOX: 'Checkbox',
 };
 
+/** Who can edit this field */
+export type FieldEditor = 'manager' | 'client' | 'both';
+
 /** A single configurable field within a blueprint */
 export interface BlueprintField {
     /** Unique identifier for the field */
@@ -26,6 +29,8 @@ export interface BlueprintField {
     position: number;
     /** Whether this field must be filled before submission */
     required: boolean;
+    /** Who can edit this field: manager (draft phase), client (signing phase), or both */
+    editableBy?: FieldEditor;
     /** Placeholder text for TEXT type fields */
     placeholder?: string;
     /** Default checked state for CHECKBOX type fields */

@@ -3,7 +3,7 @@
  * Defines the structure for contracts created from blueprints
  */
 
-import type { FieldType } from './blueprint';
+import type { FieldType, FieldEditor } from './blueprint';
 
 /**
  * Contract lifecycle states
@@ -52,6 +52,8 @@ export interface ContractField {
     position: number;
     /** Whether this field is required */
     required: boolean;
+    /** Who can edit this field */
+    editableBy?: FieldEditor;
     /** Placeholder text for TEXT fields */
     placeholder?: string;
     /**
