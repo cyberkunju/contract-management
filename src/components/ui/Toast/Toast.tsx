@@ -56,15 +56,22 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 }
 
 function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: () => void }) {
+    const [isClosing, setIsClosing] = useState(false);
+
+    const handleClose = () => {
+        setIsClosing(true);
+        setTimeout(onRemove, 300); // Wait for slideDown animation
+    };
+
     useEffect(() => {
-        const timer = setTimeout(onRemove, 4000);
+        const timer = setTimeout(handleClose, 4000);
         return () => clearTimeout(timer);
-    }, [onRemove]);
+    }, []);
 
     return (
-        <div className={`${styles.toast} ${styles[toast.type]}`}>
+        <div className={`${styles.toast} ${styles[toast.type]} ${isClosing ? styles.closing : ''}`}>
             <span className={styles.message}>{toast.message}</span>
-            <button className={styles.closeButton} onClick={onRemove}>
+            <button className={styles.closeButton} onClick={handleClose}>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M11 3L3 11M3 3l8 8" />
                 </svg>
