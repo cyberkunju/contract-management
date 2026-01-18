@@ -151,6 +151,14 @@ export function ContractView() {
 
         switch (field.type) {
             case 'TEXT':
+                if (isDisabled) {
+                    return (
+                        <div key={field.id} className={styles.readOnlyField}>
+                            <label className={styles.readOnlyLabel}>{field.label}</label>
+                            <div className={styles.readOnlyValue}>{(field.value as string) || '—'}</div>
+                        </div>
+                    );
+                }
                 return (
                     <Input
                         key={field.id}
@@ -164,6 +172,14 @@ export function ContractView() {
                 );
 
             case 'DATE':
+                if (isDisabled) {
+                    return (
+                        <div key={field.id} className={styles.readOnlyField}>
+                            <label className={styles.readOnlyLabel}>{field.label}</label>
+                            <div className={styles.readOnlyValue}>{formatDate(field.value as string) || '—'}</div>
+                        </div>
+                    );
+                }
                 return (
                     <Input
                         key={field.id}
@@ -192,7 +208,7 @@ export function ContractView() {
 
             case 'CHECKBOX':
                 return (
-                    <div key={field.id} className={styles.checkboxField}>
+                    <div key={field.id} className={styles.checkboxField} style={isDisabled ? { opacity: 0.8 } : undefined}>
                         <input
                             type="checkbox"
                             id={field.id}
@@ -201,7 +217,7 @@ export function ContractView() {
                             onChange={(e) => handleFieldChange(field.id, e.target.checked)}
                             disabled={isDisabled}
                         />
-                        <label htmlFor={field.id} className={styles.checkboxLabel}>
+                        <label htmlFor={field.id} className={styles.checkboxLabel} style={{ cursor: isDisabled ? 'default' : 'pointer' }}>
                             {field.label}
                             {field.required && <span style={{ color: 'var(--color-error)' }}> *</span>}
                         </label>
@@ -211,6 +227,17 @@ export function ContractView() {
             default:
                 return null;
         }
+    };
+
+    const validateClientFields = (): string[] => {
+        return contract.fields
+            .filter(f =>
+                (f.editableBy === 'client' || f.editableBy === 'both') && // Client editable
+                f.required && // Required
+                f.type !== 'SIGNATURE' && // Not signature
+                (!f.value || (typeof f.value === 'string' && !f.value.trim()) || (f.type === 'CHECKBOX' && f.value !== true)) // Empty/Unchecked
+            )
+            .map(f => f.label);
     };
 
     // Custom action buttons based on status
@@ -235,7 +262,14 @@ export function ContractView() {
                     {/* Special handling for SENT -> show Sign button (Client Action) */}
                     {contract.status === 'SENT' && (
                         <Button
-                            onClick={() => setShowSignModal(true)}
+                            onClick={() => {
+                                const missing = validateClientFields();
+                                if (missing.length > 0) {
+                                    showToast(`Please complete required fields: ${missing.join(', ')}`);
+                                    return;
+                                }
+                                setShowSignModal(true);
+                            }}
                             tooltip="Acting as Client: Sign the contract"
                         >
                             Sign Contract
@@ -315,8 +349,13 @@ export function ContractView() {
                 <div className={styles.headerInfo}>
                     <h1 className={styles.title}>{contract.name}</h1>
                     <div className={styles.meta}>
-                        <span>From: {contract.blueprintName}</span>
-                        <span>Created: {formatDate(contract.createdAt)}</span>
+                        <div className={styles.metaItem}>
+                            <span>{contract.blueprintName}</span>
+                        </div>
+                        <span className={styles.metaSeparator}>•</span>
+                        <div className={styles.metaItem}>
+                            <span>{formatDate(contract.createdAt)}</span>
+                        </div>
                     </div>
                 </div>
                 <div className={styles.statusSection}>

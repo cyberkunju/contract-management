@@ -3,7 +3,7 @@
 .dashboard {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: var(--space-6);
 }
 
 /* Stats */
@@ -37,10 +37,31 @@
 }
 
 /* Filter tabs */
+/* Controls Bar (Tabs + Search) */
+.controlsBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-4);
+    position: relative;
+    /* Ensure context for mobile search overlay */
+    min-height: 44px;
+}
+
 .filterTabs {
     display: flex;
     gap: var(--space-5);
-    border-bottom: 1px solid var(--color-border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex: 1;
+    /* Allow tabs to breathe */
+    margin-right: var(--space-4);
+}
+
+.filterTabs::-webkit-scrollbar {
+    display: none;
 }
 
 .filterTab {
@@ -50,7 +71,15 @@
     padding: var(--space-2) 0;
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
+    /* Align with border-bottom of container */
     transition: all var(--transition-fast);
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
 }
 
 .filterTab:hover {
@@ -74,17 +103,17 @@
     color: var(--color-ink);
 }
 
-/* Toolbar */
-.toolbar {
+/* Search Section */
+.searchSection {
     display: flex;
     align-items: center;
-    gap: var(--space-4);
+    flex-shrink: 0;
 }
 
 .searchWrapper {
     position: relative;
-    flex: 1;
-    max-width: 20rem;
+    width: 20rem;
+    transition: all var(--transition-fast);
 }
 
 .searchIcon {
@@ -107,16 +136,106 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     background-color: var(--color-paper);
+    transition: all var(--transition-fast);
 }
 
 .searchInput:focus {
     outline: none;
     border-color: var(--color-ink);
+    box-shadow: 0 0 0 2px var(--color-wash);
 }
 
 .searchInput::placeholder {
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     font-weight: var(--font-normal);
+}
+
+/* Mobile Search Toggle */
+.mobileSearchToggle {
+    display: none;
+    /* Hidden on Desktop */
+    padding: var(--space-2);
+    color: var(--color-text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.mobileSearchToggle:hover {
+    color: var(--color-ink);
+}
+
+.closeSearchBtn {
+    display: none;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+    .controlsBar {
+        gap: var(--space-2);
+    }
+
+    .filterTabs {
+        margin-right: 0;
+    }
+
+    /* Hide full search input by default on mobile */
+    .searchWrapper {
+        display: none;
+    }
+
+    /* Show icon trigger */
+    .mobileSearchToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Expanded State */
+    .searchWrapper.searchExpanded {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        inset: 0;
+        background-color: var(--color-paper);
+        z-index: 10;
+        width: 100%;
+        padding: 0;
+        animation: fadeIn 150ms ease-out;
+    }
+
+    .searchWrapper.searchExpanded .searchInput {
+        border-radius: 0;
+        border: none;
+        height: 100%;
+        background-color: transparent;
+        padding-left: var(--space-8);
+    }
+
+    .searchWrapper.searchExpanded .searchInput:focus {
+        box-shadow: none;
+    }
+
+    .closeSearchBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-3);
+        background: none;
+        border: none;
+        color: var(--color-text-secondary);
+        cursor: pointer;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
 }
 
 /* Table actions */
@@ -174,4 +293,35 @@
     font-weight: var(--font-medium);
     color: var(--color-text-secondary);
     margin-bottom: var(--space-4);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+    .dashboard {
+        gap: var(--space-4);
+    }
+
+    .stats {
+        gap: var(--space-6);
+        flex-wrap: wrap;
+    }
+
+    .stat {
+        min-width: 45%;
+        /* Ensure roughly 2 columns on mobile */
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-3);
+    }
+
+    .searchWrapper {
+        max-width: 100%;
+    }
+
+    .filterTabs {
+        gap: var(--space-4);
+    }
 }

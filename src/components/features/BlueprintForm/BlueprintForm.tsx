@@ -62,12 +62,14 @@ export function BlueprintForm({
     const [fieldLabel, setFieldLabel] = useState('');
     const [fieldRequired, setFieldRequired] = useState(false);
     const [fieldPlaceholder, setFieldPlaceholder] = useState('');
+    const [fieldForClient, setFieldForClient] = useState(false);
 
     useEffect(() => {
         if (editingField) {
             setFieldLabel(editingField.label);
             setFieldRequired(editingField.required);
             setFieldPlaceholder(editingField.placeholder ?? '');
+            setFieldForClient(editingField.editableBy === 'client');
         }
     }, [editingField]);
 
@@ -78,6 +80,7 @@ export function BlueprintForm({
             label: `New ${FIELD_TYPE_LABELS[type]}`,
             position: fields.length,
             required: false,
+            editableBy: type === 'SIGNATURE' ? 'client' : 'manager',
         };
         setFields([...fields, newField]);
         setEditingField(newField);
@@ -94,6 +97,7 @@ export function BlueprintForm({
                         label: fieldLabel,
                         required: fieldRequired,
                         placeholder: fieldPlaceholder || undefined,
+                        editableBy: editingField.type === 'SIGNATURE' ? 'client' : (editingField.type === 'DATE' ? 'manager' : (fieldForClient ? 'client' : 'manager')),
                     }
                     : f
             )
@@ -102,6 +106,7 @@ export function BlueprintForm({
         setFieldLabel('');
         setFieldRequired(false);
         setFieldPlaceholder('');
+        setFieldForClient(false);
     };
 
     const handleDeleteField = (fieldId: string) => {
@@ -190,7 +195,10 @@ export function BlueprintForm({
                                                 {field.label}
                                                 {field.required && <span className={styles.requiredBadge}>*</span>}
                                             </div>
-                                            <div className={styles.fieldType}>{FIELD_TYPE_LABELS[field.type]}</div>
+                                            <div className={styles.fieldType}>
+                                                {FIELD_TYPE_LABELS[field.type]}
+                                                {field.editableBy === 'client' && <span style={{ marginLeft: '8px', fontSize: '10px', background: 'var(--color-primary-light)', padding: '2px 6px', borderRadius: '4px', color: 'var(--color-primary)' }}>Client Only</span>}
+                                            </div>
                                         </div>
                                         <div className={styles.fieldActions}>
                                             <button
@@ -307,6 +315,16 @@ export function BlueprintForm({
                         />
                         <span style={{ fontSize: 'var(--text-sm)' }}>Required field</span>
                     </label>
+                    {(editingField?.type === 'TEXT' || editingField?.type === 'CHECKBOX') && (
+                        <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer' }}>
+                            <input
+                                type="checkbox"
+                                checked={fieldForClient}
+                                onChange={(e) => setFieldForClient(e.target.checked)}
+                            />
+                            <span style={{ fontSize: 'var(--text-sm)' }}>Client Field (Editable by Client only)</span>
+                        </label>
+                    )}
                 </div>
             </Modal>
         </form>

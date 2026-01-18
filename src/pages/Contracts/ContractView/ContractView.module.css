@@ -47,14 +47,23 @@
 
 .meta {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4);
-    font-size: var(--text-xs);
-    font-family: var(--font-mono);
-    font-weight: var(--font-medium);
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    font-family: var(--font-sans);
+    font-weight: var(--font-normal);
     color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
+    margin-top: var(--space-1);
+}
+
+.metaItem {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.metaSeparator {
+    color: var(--color-border-strong);
 }
 
 .statusSection {
@@ -68,6 +77,16 @@
     padding: var(--space-4) 0;
     margin-bottom: var(--space-4);
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Hide scrollbar Firefox */
+    mask-image: linear-gradient(to right, black 95%, transparent 100%);
+    /* Fade out effect */
+}
+
+.timeline::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar Chrome/Safari */
 }
 
 .timelineStep {
@@ -230,26 +249,30 @@
 }
 
 /* Draft Auto-Save Banner */
+/* Draft Auto-Save Banner */
 .draftBanner {
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-3);
-    background-color: #e8f5e9;
-    border-left: 3px solid #4caf50;
+    /* Removed padding to align with text */
+    padding: 0;
+    /* Removed thick background and borders */
+    background-color: transparent;
+    border: none;
     margin-bottom: var(--space-4);
     font-size: var(--text-xs);
     font-family: var(--font-mono);
     font-weight: var(--font-medium);
-    color: #2e7d32;
-    border-radius: var(--radius-sm);
+    /* Subtle, minimalistic green */
+    color: #4caf50;
 }
 
 .draftBanner svg {
     width: 14px;
     height: 14px;
     flex-shrink: 0;
-    color: #4caf50;
+    /* Inherit color from parent for consistency */
+    color: inherit;
 }
 
 /* Signature Modal - Full width pad */
@@ -263,4 +286,79 @@
     color: var(--color-text-secondary);
     font-size: var(--text-sm);
     margin-bottom: var(--space-2);
+}
+
+/* Read-Only Field Display (View Mode) */
+.readOnlyField {
+    margin-bottom: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.readOnlyLabel {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-text-secondary);
+}
+
+.readOnlyValue {
+    font-size: var(--text-base);
+    color: var(--color-ink);
+    padding: var(--space-1) 0;
+    min-height: 24px;
+    border-bottom: 1px solid transparent;
+    /* Optional: adds subtle structure if needed, or keep transparent */
+    word-break: break-word;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+    }
+
+    .statusSection {
+        align-self: flex-start;
+    }
+
+    .title {
+        font-size: var(--text-2xl);
+    }
+
+    .meta {
+        gap: var(--space-2);
+        font-size: var(--text-xs);
+        flex-wrap: wrap;
+    }
+
+    /* Stack buttons on mobile for easier tapping */
+    .actionsSection {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .actionGroup {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* Make buttons full width inside action group */
+    .actionGroup>button {
+        width: 100%;
+    }
+
+    /* Make standalone buttons (like Revoke/Delete) full width */
+    .actionsSection>button {
+        width: 100%;
+    }
+
+    .timelineConnector {
+        margin-bottom: 24px;
+        /* Adjust alignment for potentially wrapped items if needed, mostly for safety */
+    }
 }

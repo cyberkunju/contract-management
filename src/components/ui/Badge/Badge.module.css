@@ -72,3 +72,43 @@
     background-color: #dbeafe;
     color: #1e40af;
 }
+
+/* Dark Mode Overrides */
+:global([data-theme='dark']) .badge {
+    border: 1px solid transparent;
+}
+
+:global([data-theme='dark']) .created {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #e5e7eb;
+}
+
+:global([data-theme='dark']) .approved,
+:global([data-theme='dark']) .info {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #93c5fd;
+}
+
+:global([data-theme='dark']) .sent,
+:global([data-theme='dark']) .warning {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #fcd34d;
+}
+
+:global([data-theme='dark']) .signed,
+:global([data-theme='dark']) .success {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #6ee7b7;
+}
+
+:global([data-theme='dark']) .locked {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #9ca3af;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+:global([data-theme='dark']) .revoked,
+:global([data-theme='dark']) .error {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+}

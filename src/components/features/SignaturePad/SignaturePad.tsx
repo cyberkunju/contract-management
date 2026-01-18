@@ -5,6 +5,7 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { Button } from '../../ui';
+import { useUIStore } from '../../../stores';
 import styles from './SignaturePad.module.css';
 
 type SignatureStatus = 'drafting' | 'pending' | 'ready' | 'signed';
@@ -26,6 +27,20 @@ interface SignaturePadProps {
     signerName?: string;
 }
 
+// Theme color definitions matching CSS variables
+const THEME_COLORS = {
+    light: {
+        paper: '#fefefe',
+        wash: '#f8f8f6',
+        ink: '#1a1a1a',
+    },
+    dark: {
+        paper: '#000000',
+        wash: '#0a0a0a',
+        ink: '#f0f0f0',
+    }
+};
+
 export function SignaturePad({
     label,
     value,
@@ -38,6 +53,7 @@ export function SignaturePad({
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isDrawing, setIsDrawing] = useState(false);
     const [hasSignature, setHasSignature] = useState(!!value);
+    const { theme } = useUIStore();
 
     // Determine if signing is allowed
     const canSign = signatureStatus === 'ready' && !disabled;
@@ -56,16 +72,19 @@ export function SignaturePad({
         canvas.width = rect.width;
         canvas.height = 150;
 
+        const currentTheme = THEME_COLORS[theme as keyof typeof THEME_COLORS] || THEME_COLORS.light;
+        const backgroundColor = isWaiting ? currentTheme.wash : currentTheme.paper;
+
         // Fill with appropriate background
-        ctx.fillStyle = isWaiting ? '#f8f8f6' : '#ffffff';
+        ctx.fillStyle = backgroundColor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Configure drawing
-        ctx.strokeStyle = '#1a1a1a';
+        ctx.strokeStyle = currentTheme.ink;
         ctx.lineWidth = 2;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-    }, [isWaiting]);
+    }, [isWaiting, theme]);
 
     const getCoordinates = (e: React.MouseEvent | React.TouchEvent): { x: number; y: number } | null => {
         const canvas = canvasRef.current;
@@ -131,7 +150,10 @@ export function SignaturePad({
         const ctx = canvas?.getContext('2d');
         if (!canvas || !ctx) return;
 
-        ctx.fillStyle = '#ffffff';
+        const currentTheme = THEME_COLORS[theme as keyof typeof THEME_COLORS] || THEME_COLORS.light;
+        const backgroundColor = isWaiting ? currentTheme.wash : currentTheme.paper;
+
+        ctx.fillStyle = backgroundColor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         setHasSignature(false);
         onChange(null);

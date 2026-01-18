@@ -1,42 +1,46 @@
+/* Light Mode (Default) */
 :root {
     /* 
    * MINIMALIST DESIGN SYSTEM
    * Custom human-crafted tokens - no frameworks
    */
 
-    /* Off-Black/Off-White Palette */
+    /* Base Palette */
     --color-ink: #1a1a1a;
     --color-paper: #fefefe;
     --color-wash: #f8f8f6;
-
-    /* Grayscale */
     --color-gray-100: #f5f5f3;
     --color-gray-200: #e8e8e5;
     --color-gray-300: #d0d0cc;
     --color-gray-400: #9a9a96;
     --color-gray-500: #6b6b68;
     --color-gray-600: #3d3d3a;
-
-    /* Semantic */
     --color-accent: #2d2d2d;
     --color-error: #c1272d;
 
-    /* Application tokens */
+    /* Semantic Aliases */
     --color-text: var(--color-ink);
     --color-text-primary: var(--color-ink);
     --color-text-secondary: var(--color-gray-500);
     --color-text-muted: var(--color-gray-400);
+    --color-text-inverse: var(--color-paper);
+
     --color-background: var(--color-paper);
     --color-surface: var(--color-paper);
+    --color-surface-hover: var(--color-gray-100);
+    --color-surface-active: var(--color-gray-200);
+
     --color-border: var(--color-gray-200);
     --color-border-strong: var(--color-gray-300);
 
-    /* Aliases */
+    --color-primary-600: var(--color-ink);
+    --color-primary-light: #f0f0f0;
+
     --color-black: var(--color-ink);
     --color-white: var(--color-paper);
     --color-gray-50: var(--color-wash);
     --color-error-500: var(--color-error);
-    --color-primary-600: var(--color-ink);
+    --color-error-bg: #fee2e2;
 
     /* Typography - System fonts only */
     --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, sans-serif;
@@ -91,6 +95,8 @@
 
     /* Shadows - minimal */
     --shadow-none: none;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-focus: 0 0 0 2px var(--color-paper), 0 0 0 4px var(--color-ink);
 
     /* Transitions */
@@ -102,4 +108,51 @@
     --z-sticky: 100;
     --z-overlay: 200;
     --z-modal: 300;
+}
+
+/* Dark Mode Overrides */
+[data-theme='dark'] {
+    --color-ink: #f0f0f0;
+    /* Off-white for text */
+    --color-paper: #000000;
+    /* Deep black for background */
+    --color-wash: #0a0a0a;
+    /* Slightly lighter for secondary backgrounds */
+
+    --color-gray-100: #0a0a0a;
+    --color-gray-200: #1a1a1a;
+    --color-gray-300: #333333;
+    --color-gray-400: #6b6b68;
+    --color-gray-500: #9a9a96;
+    --color-gray-600: #d0d0cc;
+
+    --color-accent: #e0e0e0;
+    --color-error: #ef5350;
+
+    --color-text: var(--color-ink);
+    --color-text-primary: var(--color-ink);
+    --color-text-secondary: #a0a0a0;
+    --color-text-muted: #666666;
+    --color-text-inverse: #000000;
+
+    --color-background: var(--color-paper);
+    --color-surface: #0a0a0a;
+    --color-surface-hover: #1a1a1a;
+    --color-surface-active: #2a2a2a;
+
+    --color-border: #333333;
+    --color-border-strong: #444444;
+
+    --color-primary-600: #ffffff;
+    --color-primary-light: #2c2c2c;
+
+    --color-black: var(--color-paper);
+    --color-white: var(--color-ink);
+
+    --color-error-500: #ef5350;
+    --color-error-bg: #3e1b1b;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-focus: 0 0 0 2px var(--color-paper), 0 0 0 4px var(--color-ink);
 }

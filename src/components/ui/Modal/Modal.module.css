@@ -50,15 +50,45 @@
 
 /* Sizes */
 .sm {
-    max-width: 20rem;
+    max-width: 24rem;
 }
 
 .md {
-    max-width: 28rem;
+    max-width: 32rem;
 }
 
 .lg {
-    max-width: 36rem;
+    max-width: 42rem;
+}
+
+@media (max-width: 640px) {
+    .modal {
+        width: 100% !important;
+        max-width: calc(100% - var(--space-4)) !important;
+        /* Margin around modal */
+        margin: auto;
+    }
+
+    .sm,
+    .md,
+    .lg {
+        max-width: none;
+    }
+
+    .body {
+        padding: var(--space-3);
+    }
+
+    .footer {
+        flex-direction: column-reverse;
+        /* Stack buttons, cancel at bottom */
+        padding: var(--space-3);
+    }
+
+    .footer>button {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 /* Header */
