@@ -3,14 +3,16 @@
  * Main application layout with header and navigation
  */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useUIStore } from '../../stores';
 import { Button } from '../ui';
+import { HelpModal } from '../features';
 import styles from './Layout.module.css';
 
 export function Layout() {
     const { theme, toggleTheme } = useUIStore();
+    const [isHelpOpen, setIsHelpOpen] = useState(false);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -23,6 +25,7 @@ export function Layout() {
                     <NavLink to="/" className={styles.logo}>
                         CONTRACT MANAGEMENT
                     </NavLink>
+                    <div className={styles.headerSpacer} />
                     <nav className={styles.nav}>
                         <NavLink
                             to="/"
@@ -33,6 +36,7 @@ export function Layout() {
                         >
                             Dashboard
                         </NavLink>
+                        <div className={styles.navSeparator} />
                         <NavLink
                             to="/blueprints"
                             className={({ isActive }) =>
@@ -41,38 +45,53 @@ export function Layout() {
                         >
                             Blueprints
                         </NavLink>
+                        <div className={styles.themeToggleWrapper}>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setIsHelpOpen(true)}
+                                aria-label="Help & Tutorials"
+                                tooltip="How to use"
+                            >
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={toggleTheme}
+                                aria-label="Toggle theme"
+                                tooltip={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                            >
+                                {theme === 'light' ? (
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                    </svg>
+                                ) : (
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <circle cx="12" cy="12" r="5"></circle>
+                                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                    </svg>
+                                )}
+                            </Button>
+                        </div>
                     </nav>
-                    <div className={styles.themeToggleWrapper}>
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={toggleTheme}
-                            aria-label="Toggle theme"
-                        >
-                            {theme === 'light' ? (
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                                </svg>
-                            ) : (
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="12" cy="12" r="5"></circle>
-                                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                                </svg>
-                            )}
-                        </Button>
-                    </div>
                 </div>
             </header>
             <main className={styles.main}>
                 <Outlet />
             </main>
+            <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
         </div>
     );
 }

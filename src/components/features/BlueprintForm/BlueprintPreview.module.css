@@ -1,0 +1,203 @@
+/* BlueprintPreview Styles */
+
+.previewOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-background);
+    z-index: 200;
+    /* Higher than nav to cover everything */
+    overflow-y: auto;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.previewContainer {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--space-8);
+    background: var(--color-background);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.previewTopBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.previewTitle {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--color-ink);
+    margin-bottom: var(--space-2);
+}
+
+.previewMeta {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-1);
+}
+
+.previewTimeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-8);
+    padding: 0 var(--space-4);
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Mock Timeline Line */
+.previewTimeline::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 40px;
+    right: 40px;
+    height: 2px;
+    background: var(--color-gray-200);
+    z-index: 0;
+}
+
+.timelineStep {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    position: relative;
+    z-index: 1;
+    background: var(--color-background);
+    /* Mask line */
+    padding: 0 var(--space-2);
+    flex-shrink: 0;
+}
+
+.timelineCircle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-white);
+    border: 2px solid var(--color-gray-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--color-gray-600);
+}
+
+.timelineCircleActive {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: white;
+}
+
+.timelineIcon {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+}
+
+.timelineLabel {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-gray-600);
+    letter-spacing: 0.05em;
+}
+
+.previewBanner {
+    background-color: var(--color-wash);
+    border: 1px solid var(--color-border);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-8);
+    display: flex;
+    gap: var(--space-2);
+}
+
+.previewGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Two columns like screenshot */
+    gap: var(--space-8) var(--space-12);
+    /* Large gap */
+    margin-bottom: var(--space-8);
+}
+
+.previewFieldFullWidth {
+    grid-column: 1 / -1;
+}
+
+.previewLabel {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.previewValue {
+    font-size: var(--text-base);
+    color: var(--color-ink);
+    padding-bottom: var(--space-2);
+    min-height: 24px;
+    /* Mimic the underline/input look or just text */
+}
+
+/* Signature Area */
+.previewSignatureBox {
+    border: 1px dashed var(--color-gray-600);
+    background-color: var(--color-gray-800);
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    color: var(--color-gray-400);
+    font-family: var(--font-serif);
+    font-style: italic;
+    cursor: default;
+    margin-top: var(--space-2);
+}
+
+/* Actions Footer */
+.previewActions {
+    margin-top: auto;
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    gap: var(--space-3);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .previewGrid {
+        grid-template-columns: 1fr;
+    }
+}

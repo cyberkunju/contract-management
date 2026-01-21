@@ -95,7 +95,14 @@ export function Dashboard() {
             key: 'status',
             header: 'Status',
             render: (contract) => (
-                <Badge variant={contract.status}>{STATUS_LABELS[contract.status]}</Badge>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-start' }}>
+                    <Badge variant={contract.status}>{STATUS_LABELS[contract.status]}</Badge>
+                    {contract.status === 'REVOKED' && contract.revocationReason && (
+                        <span style={{ fontSize: '11px', color: 'var(--color-text-secondary)', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={contract.revocationReason}>
+                            "{contract.revocationReason}"
+                        </span>
+                    )}
+                </div>
             ),
         },
         {
@@ -113,16 +120,18 @@ export function Dashboard() {
             width: '100px',
             render: (contract) => (
                 <div className={styles.tableActions}>
-                    <button
-                        className={styles.actionButton}
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        iconOnly
                         onClick={() => navigate(`/contracts/${contract.id}`)}
-                        aria-label="View contract"
+                        tooltip="View details"
                     >
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
                             <circle cx="8" cy="8" r="3" />
                             <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" />
                         </svg>
-                    </button>
+                    </Button>
                 </div>
             ),
         },
@@ -158,7 +167,7 @@ export function Dashboard() {
                 description="Manage your contracts"
                 actions={
                     <Link to="/contracts/new">
-                        <Button>
+                        <Button tooltip="Draft a new contract">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M8 3v10M3 8h10" />
                             </svg>

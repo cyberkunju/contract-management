@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: column;
     background-color: var(--color-background);
+    overflow-x: hidden;
+    max-width: 100vw;
 }
 
 .header {
@@ -16,44 +18,47 @@
 .headerContent {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     width: 100%;
     padding: var(--space-3) var(--space-5);
+    gap: var(--space-4);
 }
 
-/* Desktop Alignment Default */
+/* Logo - Left aligned */
 .logo {
     font-family: var(--font-sans);
     font-size: var(--text-base);
     font-weight: var(--font-bold);
     letter-spacing: var(--tracking-tight);
     color: var(--color-ink);
-    margin-right: auto;
-    /* Push nav to right on desktop */
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .logo:hover {
     opacity: 0.7;
 }
 
+/* Spacer to push nav to right */
+.headerSpacer {
+    flex: 1;
+}
+
+/* Navigation - Right aligned with toggle */
 .nav {
     display: flex;
     align-items: center;
     gap: var(--space-5);
 }
 
-.themeToggleWrapper {
-    display: flex;
-    align-items: center;
-    margin-left: var(--space-4);
-}
-
 .navLink {
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
     color: var(--color-text-secondary);
+    text-decoration: none;
     transition: color var(--transition-fast);
     padding: var(--space-1) 0;
+    position: relative;
 }
 
 .navLink:hover {
@@ -63,16 +68,41 @@
 .navLinkActive {
     color: var(--color-ink);
     font-weight: var(--font-semibold);
-    text-decoration: underline;
-    text-underline-offset: 4px;
 }
 
+/* Active indicator - bottom border instead of text underline */
+.navLinkActive::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--color-ink);
+}
+
+/* Theme toggle - part of nav flow */
+.themeToggleWrapper {
+    display: flex;
+    align-items: center;
+    margin-left: var(--space-2);
+}
+
+.navSeparator {
+    width: 1px;
+    height: 16px;
+    background-color: var(--color-border);
+    margin: 0 var(--space-1);
+}
+
+/* Main content */
 .main {
     flex: 1;
     width: 100%;
     padding: var(--space-5);
 }
 
+/* Page header */
 .pageHeader {
     margin-bottom: var(--space-5);
     display: flex;
@@ -110,24 +140,40 @@
 
     .headerContent {
         padding: var(--space-3) var(--space-4);
-        position: relative;
-        /* Context for absolute toggle */
         flex-direction: column;
-        align-items: center;
-        gap: 0;
+        align-items: flex-start;
+        gap: var(--space-2);
     }
 
-    /* Logo (Top Center) */
+    /* Logo (Top Left) */
     .logo {
         order: 1;
+        text-align: left;
+        margin-right: auto;
+        font-size: var(--text-sm);
+        display: block;
+        max-width: calc(100% - 60px);
+        /* Leave space for toggle */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Spacer hidden on mobile */
+    .headerSpacer {
+        display: none;
+    }
+
+    /* Nav (Below Title) */
+    .nav {
+        order: 2;
         width: 100%;
-        text-align: center;
-        margin-right: 0;
-        /* Reset desktop margin */
-        font-size: var(--text-lg);
-        /* Ensure text doesn't overlap toggle on small screens */
-        padding: 0 40px;
-        /* Safety padding for toggle space */
+        justify-content: flex-start;
+        /* Left define nav items */
+        margin-top: var(--space-2);
+        gap: var(--space-4);
+        padding-top: 0;
+        padding-left: 0;
     }
 
     /* Toggle (Absolute Top Right) */
@@ -136,26 +182,20 @@
         right: var(--space-4);
         top: var(--space-3);
         margin-left: 0;
-        /* Reset desktop margin */
-    }
-
-    /* Nav (Below Title) */
-    .nav {
-        order: 2;
-        width: 100%;
-        justify-content: center;
-        margin-top: var(--space-4);
-        gap: var(--space-6);
-        padding-top: 0;
+        padding-left: 0;
+        border-left: none;
     }
 
     .main {
         padding: var(--space-4);
+        overflow-x: hidden;
+        /* Ensure main content doesn't overflow */
     }
 
     .pageHeader {
         flex-direction: column;
         align-items: flex-start;
+        gap: var(--space-4);
     }
 
     .pageTitle {

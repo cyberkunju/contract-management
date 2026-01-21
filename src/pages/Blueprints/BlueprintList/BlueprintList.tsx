@@ -32,7 +32,7 @@ export function BlueprintList() {
                 description="Create and manage reusable contract templates"
                 actions={
                     <Link to="/blueprints/new">
-                        <Button>
+                        <Button tooltip="Create a new template">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M8 3v10M3 8h10" />
                             </svg>
@@ -53,7 +53,7 @@ export function BlueprintList() {
                         Create your first blueprint to start building contracts
                     </p>
                     <Link to="/blueprints/new">
-                        <Button>Create Blueprint</Button>
+                        <Button tooltip="Start creating templates">Create Blueprint</Button>
                     </Link>
                 </div>
             ) : (
@@ -71,6 +71,7 @@ export function BlueprintList() {
                                             iconOnly
                                             onClick={() => navigate(`/blueprints/${blueprint.id}/edit`)}
                                             aria-label="Edit blueprint"
+                                            tooltip="Edit blueprint"
                                         >
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
                                                 <path d="M11.5 2.5a2.121 2.121 0 013 3L5 15l-4 1 1-4L11.5 2.5z" />
@@ -82,6 +83,7 @@ export function BlueprintList() {
                                             iconOnly
                                             onClick={() => setDeleteId(blueprint.id)}
                                             aria-label="Delete blueprint"
+                                            tooltip="Delete blueprint"
                                         >
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
                                                 <path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M3 4l1 10h8l1-10" />

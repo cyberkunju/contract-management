@@ -1,0 +1,175 @@
+/* HelpModal Styles */
+
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.dashboardGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-top: var(--space-2);
+}
+
+.infoBox {
+    background: var(--color-wash);
+    padding: var(--space-4);
+    border-radius: var(--radius-sm);
+}
+
+.boxTitle {
+    margin: 0 0 var(--space-2) 0;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-ink);
+}
+
+.boxText {
+    font-size: 13px;
+    margin: 0;
+    color: var(--color-ink);
+    line-height: 1.5;
+}
+
+.list {
+    font-size: 13px;
+    padding-left: var(--space-5);
+    margin: var(--space-2) 0;
+    color: var(--color-ink);
+}
+
+.stepList {
+    font-size: 13px;
+    padding-left: var(--space-5);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    color: var(--color-ink);
+}
+
+.subList {
+    margin-top: var(--space-1);
+}
+
+.tutorialBox {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4);
+}
+
+.tutorialTitle {
+    margin: 0 0 var(--space-3) 0;
+    font-size: 15px;
+    color: var(--color-primary);
+    font-weight: var(--font-bold);
+}
+
+.tipText {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+}
+
+.lifecycleFlow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-wash);
+    padding: var(--space-4);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    color: var(--color-ink);
+}
+
+.lifecycleList {
+    font-size: 13px;
+    padding-left: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--color-ink);
+}
+
+.simulationBox {
+    border: 1px solid var(--color-primary);
+    background: var(--color-primary-light);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4);
+}
+
+.simulationTitle {
+    margin: 0 0 var(--space-2) 0;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+}
+
+.finalizingBox {
+    margin-top: var(--space-2);
+}
+
+/* Footer Section */
+.footer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.pageIndicator {
+    flex: 1;
+    text-align: center;
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    color: var(--color-text-secondary);
+}
+
+.footerActions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.contentContainer {
+    padding: var(--space-2) var(--space-1);
+    min-height: 300px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .dashboardGrid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+
+    .lifecycleFlow {
+        flex-direction: column;
+        gap: var(--space-2);
+        align-items: stretch;
+    }
+
+    .lifecycleFlow span:nth-child(even) {
+        display: none;
+    }
+
+    /* Add visual separator for vertical flow if needed, or keep clean */
+
+    .footer {
+        flex-direction: column-reverse;
+        gap: var(--space-3);
+    }
+
+    .footerActions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .footerActions>button {
+        width: 100%;
+    }
+
+    .pageIndicator {
+        padding: var(--space-2) 0;
+    }
+}

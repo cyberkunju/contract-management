@@ -84,6 +84,8 @@ export interface Contract {
     createdAt: string;
     /** ISO timestamp of last modification */
     updatedAt: string;
+    /** Optional reason for revocation if status is REVOKED */
+    revocationReason?: string;
 }
 
 /** Data required to create a new contract */

@@ -61,6 +61,10 @@
     max-width: 42rem;
 }
 
+.xl {
+    max-width: 60rem;
+}
+
 @media (max-width: 640px) {
     .modal {
         width: 100% !important;

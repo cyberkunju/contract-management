@@ -80,8 +80,7 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     /* Hide scrollbar Firefox */
-    mask-image: linear-gradient(to right, black 95%, transparent 100%);
-    /* Fade out effect */
+    /* Hide scrollbar Firefox */
 }
 
 .timeline::-webkit-scrollbar {
@@ -94,6 +93,7 @@
     flex-direction: column;
     align-items: center;
     min-width: 80px;
+    flex-shrink: 0;
 }
 
 .timelineIcon {
@@ -103,7 +103,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 2px solid var(--color-gray-300);
+    border: 2px solid var(--color-gray-400);
     background-color: var(--color-paper);
     font-size: var(--text-xs);
     font-weight: var(--font-bold);
@@ -130,7 +130,7 @@
 .timelineLabel {
     font-size: 10px;
     font-weight: var(--font-bold);
-    color: var(--color-text-muted);
+    color: var(--color-gray-600);
     margin-top: var(--space-1);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wider);
@@ -156,6 +156,7 @@
 /* Fields Section */
 .fieldsSection {
     padding: 0;
+    width: 100%;
 }
 
 .sectionTitle {
@@ -164,15 +165,21 @@
     text-transform: uppercase;
     letter-spacing: var(--tracking-wider);
     color: var(--color-ink);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-5);
     padding-bottom: var(--space-2);
     border-bottom: 1px solid var(--color-border);
 }
 
 .fieldList {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+    align-items: start;
+}
+
+/* Full width fields span both columns */
+.fieldFullWidth {
+    grid-column: 1 / -1;
 }
 
 .checkboxField {
@@ -290,7 +297,6 @@
 
 /* Read-Only Field Display (View Mode) */
 .readOnlyField {
-    margin-bottom: var(--space-4);
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
@@ -360,5 +366,11 @@
     .timelineConnector {
         margin-bottom: 24px;
         /* Adjust alignment for potentially wrapped items if needed, mostly for safety */
+    }
+
+    /* Stack fields to single column on mobile */
+    .fieldList {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
     }
 }

@@ -6,7 +6,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useContractStore } from '../../../stores';
-import { Button, Badge, Input, Modal, useToast } from '../../../components/ui';
+import { Button, Badge, Input, Modal, DatePicker, useToast } from '../../../components/ui';
 import { SignaturePad } from '../../../components/features';
 import { STATUS_LABELS, type ContractStatus, type ContractField } from '../../../types';
 import {
@@ -33,6 +33,8 @@ export function ContractView() {
     const [recipientEmail, setRecipientEmail] = useState('');
     const [emailMessage, setEmailMessage] = useState('');
     const [modalSignature, setModalSignature] = useState<string | null>(null);
+    const [revocationReason, setRevocationReason] = useState('');
+    const [isClientRevoking, setIsClientRevoking] = useState(false);
 
     const contract = id ? getContract(id) : undefined;
 
@@ -68,8 +70,10 @@ export function ContractView() {
     };
 
     const handleTransition = (newStatus: ContractStatus) => {
-        transitionStatus(contract.id, newStatus);
+        transitionStatus(contract.id, newStatus, newStatus === 'REVOKED' ? revocationReason : undefined);
         setShowTransitionModal(null);
+        setRevocationReason('');
+        setIsClientRevoking(false);
 
         // Story-telling toast messages based on action
         const toastMessages: Record<ContractStatus, string> = {
@@ -181,12 +185,11 @@ export function ContractView() {
                     );
                 }
                 return (
-                    <Input
+                    <DatePicker
                         key={field.id}
-                        type="date"
                         label={field.label}
                         value={(field.value as string) ?? ''}
-                        onChange={(e) => handleFieldChange(field.id, e.target.value)}
+                        onChange={(value) => handleFieldChange(field.id, value)}
                         required={field.required}
                         disabled={isDisabled}
                     />
@@ -194,21 +197,22 @@ export function ContractView() {
 
             case 'SIGNATURE':
                 return (
-                    <SignaturePad
-                        key={field.id}
-                        label={field.label}
-                        value={field.value as string | null}
-                        onChange={(value) => handleFieldChange(field.id, value)}
-                        required={field.required}
-                        disabled={isDisabled}
-                        signatureStatus={signatureStatus}
-                        signerName={field.editableBy === 'client' ? "Client" : "User"}
-                    />
+                    <div key={field.id} className={styles.fieldFullWidth}>
+                        <SignaturePad
+                            label={field.label}
+                            value={field.value as string | null}
+                            onChange={(value) => handleFieldChange(field.id, value)}
+                            required={field.required}
+                            disabled={isDisabled}
+                            signatureStatus={signatureStatus}
+                            signerName={field.editableBy === 'client' ? "Client" : "User"}
+                        />
+                    </div>
                 );
 
             case 'CHECKBOX':
                 return (
-                    <div key={field.id} className={styles.checkboxField} style={isDisabled ? { opacity: 0.8 } : undefined}>
+                    <div key={field.id} className={`${styles.checkboxField} ${styles.fieldFullWidth}`} style={isDisabled ? { opacity: 0.8 } : undefined}>
                         <input
                             type="checkbox"
                             id={field.id}
@@ -229,15 +233,23 @@ export function ContractView() {
         }
     };
 
-    const validateClientFields = (): string[] => {
-        return contract.fields
-            .filter(f =>
-                (f.editableBy === 'client' || f.editableBy === 'both') && // Client editable
-                f.required && // Required
-                f.type !== 'SIGNATURE' && // Not signature
-                (!f.value || (typeof f.value === 'string' && !f.value.trim()) || (f.type === 'CHECKBOX' && f.value !== true)) // Empty/Unchecked
-            )
-            .map(f => f.label);
+    const validateClientFields = () => {
+        const clientFields = contract.fields.filter(
+            (f) => (f.editableBy === 'client' || f.editableBy === 'both') && f.required && f.type !== 'SIGNATURE'
+        );
+
+        const missing: string[] = [];
+        clientFields.forEach((field) => {
+            if (field.type === 'CHECKBOX') {
+                if (!field.value) missing.push(field.label);
+            } else {
+                const val = field.value as string | null;
+                if (!val || !val.trim()) {
+                    missing.push(field.label);
+                }
+            }
+        });
+        return missing;
     };
 
     // Custom action buttons based on status
@@ -250,7 +262,9 @@ export function ContractView() {
                         <path d="M5 5V3.5C5 2.67 5.67 2 6.5 2h3c.83 0 1.5.67 1.5 1.5V5" />
                     </svg>
                     {contract.status === 'REVOKED'
-                        ? 'This contract has been revoked.'
+                        ? contract.revocationReason
+                            ? `Contract revoked: "${contract.revocationReason}"`
+                            : 'This contract has been revoked.'
                         : 'This contract is locked and complete.'}
                 </div>
             );
@@ -261,19 +275,32 @@ export function ContractView() {
                 <div className={styles.actionGroup}>
                     {/* Special handling for SENT -> show Sign button (Client Action) */}
                     {contract.status === 'SENT' && (
-                        <Button
-                            onClick={() => {
-                                const missing = validateClientFields();
-                                if (missing.length > 0) {
-                                    showToast(`Please complete required fields: ${missing.join(', ')}`);
-                                    return;
-                                }
-                                setShowSignModal(true);
-                            }}
-                            tooltip="Acting as Client: Sign the contract"
-                        >
-                            Sign Contract
-                        </Button>
+                        <>
+                            <Button
+                                onClick={() => {
+                                    const missing = validateClientFields();
+                                    if (missing.length > 0) {
+                                        showToast(`Please complete required fields: ${missing.join(', ')}`);
+                                        return;
+                                    }
+                                    setShowSignModal(true);
+                                }}
+                                tooltip="Acting as Client: Sign the contract"
+                            >
+                                Sign Contract
+                            </Button>
+
+                            <Button
+                                variant="danger"
+                                onClick={() => {
+                                    setIsClientRevoking(true);
+                                    setShowTransitionModal('REVOKED');
+                                }}
+                                tooltip="Reject contract"
+                            >
+                                Reject
+                            </Button>
+                        </>
                     )}
 
                     {/* Show Send to Client button (Manager Action) */}
@@ -321,11 +348,14 @@ export function ContractView() {
                     )}
                 </div>
 
-                {validTransitions.includes('REVOKED') && (
+                {validTransitions.includes('REVOKED') && contract.status !== 'SENT' && (
                     <Button
                         variant="danger"
-                        onClick={() => setShowTransitionModal('REVOKED')}
-                        tooltip="Acting as Manager: Cancel contract"
+                        onClick={() => {
+                            setIsClientRevoking(false);
+                            setShowTransitionModal('REVOKED');
+                        }}
+                        tooltip="Cancel contract"
                     >
                         Revoke
                     </Button>
@@ -450,7 +480,7 @@ export function ContractView() {
             <div className={styles.actionsSection}>
                 {renderActions()}
                 <div style={{ flex: 1 }} />
-                <Button variant="ghost" onClick={() => setShowDeleteModal(true)}>
+                <Button variant="ghost" onClick={() => setShowDeleteModal(true)} tooltip="Permanently delete this contract">
                     Delete
                 </Button>
             </div>
@@ -548,10 +578,21 @@ export function ContractView() {
                 }
             >
                 {showTransitionModal === 'REVOKED' ? (
-                    <p>
-                        Are you sure you want to <strong>revoke</strong> this contract?
-                        This action cannot be undone and the contract will be permanently terminated.
-                    </p>
+                    <div>
+                        <p>
+                            Are you sure you want to <strong>{isClientRevoking ? 'reject' : 'revoke'}</strong> this contract?
+                            This action cannot be undone and the contract will be permanently terminated.
+                        </p>
+                        <div style={{ marginTop: '16px' }}>
+                            <Input
+                                as="textarea"
+                                label="Reason for revocation (Optional)"
+                                value={revocationReason}
+                                onChange={(e) => setRevocationReason(e.target.value)}
+                                placeholder={isClientRevoking ? "e.g., Terms are not acceptable..." : "e.g., Internal cancellation..."}
+                            />
+                        </div>
+                    </div>
                 ) : showTransitionModal === 'LOCKED' ? (
                     <p>
                         Are you sure you want to <strong>lock</strong> this contract?

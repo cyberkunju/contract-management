@@ -19,7 +19,7 @@ export interface ModalProps {
     /** Footer content (buttons) */
     footer?: ReactNode;
     /** Size variant */
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export function Modal({

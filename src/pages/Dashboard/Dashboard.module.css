@@ -302,13 +302,15 @@
     }
 
     .stats {
-        gap: var(--space-6);
-        flex-wrap: wrap;
+        gap: var(--space-4);
+        flex-direction: column;
+        /* Stack vertically for safety */
     }
 
     .stat {
-        min-width: 45%;
-        /* Ensure roughly 2 columns on mobile */
+        width: 100%;
+        /* Full width */
+        min-width: 0;
     }
 
     .toolbar {
@@ -317,11 +319,19 @@
         gap: var(--space-3);
     }
 
-    .searchWrapper {
+    .controlsBar {
         max-width: 100%;
+        /* Ensure bar doesn't overflow */
     }
 
     .filterTabs {
+        min-width: 0;
+        width: 0;
+        /* Force flex item to shrink to container */
+        flex-grow: 1;
+        /* Grow to fill space */
         gap: var(--space-4);
+        padding-right: var(--space-4);
+        /* Add padding for scroll end */
     }
 }

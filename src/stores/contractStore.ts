@@ -24,7 +24,7 @@ interface ContractState {
     /** Update contract field values */
     updateContractFields: (id: string, fields: ContractField[]) => boolean;
     /** Transition contract to a new status */
-    transitionStatus: (id: string, newStatus: ContractStatus) => boolean;
+    transitionStatus: (id: string, newStatus: ContractStatus, reason?: string) => boolean;
     /** Delete a contract */
     deleteContract: (id: string) => boolean;
     /** Search contracts by name */
@@ -111,7 +111,7 @@ export const useContractStore = create<ContractState>()(
                 return true;
             },
 
-            transitionStatus: (id, newStatus) => {
+            transitionStatus: (id, newStatus, reason) => {
                 const contract = get().getContract(id);
                 if (!contract) {
                     console.error('Contract not found:', id);
@@ -129,7 +129,12 @@ export const useContractStore = create<ContractState>()(
                 set((state) => ({
                     contracts: state.contracts.map((c) =>
                         c.id === id
-                            ? { ...c, status: newStatus, updatedAt: getCurrentTimestamp() }
+                            ? {
+                                ...c,
+                                status: newStatus,
+                                updatedAt: getCurrentTimestamp(),
+                                revocationReason: newStatus === 'REVOKED' ? reason : c.revocationReason
+                            }
                             : c
                     ),
                 }));

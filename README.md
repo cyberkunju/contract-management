@@ -15,11 +15,15 @@ Opens at http://localhost:5173
 
 ## Features
 
-**Blueprint Builder**: Create templates with configurable fields (Text, Date, Signature, Checkbox). Supports reordering with move up/down controls.
+**Blueprint Builder**: Create templates with configurable fields (Text, Date, Signature, Checkbox). Supports intuitive drag-and-drop reordering.
 
 **Lifecycle Engine**: Contracts strictly follow the `Created → Approved → Sent → Signed → Locked` flow. State transitions are validated at the data layer.
 
 **Revocation Logic**: Contracts can be revoked from early stages (Created, Approved, Sent) but become immutable once Signed or Locked.
+    
+**Role-Based Permissions**: Fields can be designated as 'Editable by Manager' or 'Editable by Client'. The UI adapts to the current user's role (simulated) and contract status, unlocking only the relevant fields for input.
+
+**Mobile-First Design**: Fully responsive layout optimized for all devices. Features a vertical-stack dashboard on mobile, touch-friendly touch targets, and a collapsible navigation system.
 
 **Dashboard**: Filterable views (Active, Pending, Signed, Archived) with search by contract or blueprint name.
 
@@ -67,11 +71,8 @@ src/
 **Signature is Visual Only**: The signature pad uses HTML5 Canvas. It captures the drawing as a data URL but doesn't do any cryptographic verification. It's a simulation for demo purposes.
 
 ## Limitations
-
-- No drag-and-drop for field positioning (used move up/down buttons instead)
 - No undo/redo for actions
 - No PDF export
-- Mobile works but the table-heavy UI is optimized for desktop
 
 ## Tests
 
@@ -79,11 +80,12 @@ src/
 npm run test
 ```
 
-14 unit tests covering:
+26 unit tests covering:
 - Valid forward transitions (Created → Approved → Sent → etc.)
 - Blocked transitions (can't skip states, can't go backward except Revert to Draft)
 - Terminal state enforcement (Locked/Revoked contracts can't transition)
 - Dashboard filter mapping
+- Utility helpers (Date formatting, Text truncation, Debouncing)
 
 ## Default Templates
 

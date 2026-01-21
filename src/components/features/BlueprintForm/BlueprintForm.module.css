@@ -28,6 +28,10 @@
     gap: var(--space-2);
 }
 
+.fieldItemWrapper {
+    position: relative;
+}
+
 .fieldItem {
     display: flex;
     align-items: center;
@@ -149,4 +153,43 @@
     height: 32px;
     margin: 0 auto var(--space-2);
     color: var(--color-gray-300);
+}
+
+/* Drag and Drop Styles */
+.draggable {
+    cursor: grab;
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s;
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+.isDragging {
+    opacity: 0.4;
+    background: var(--color-gray-100);
+    border-style: dashed;
+}
+
+.dropTargetActive {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-light);
+}
+
+.dropPlaceholder {
+    height: 4px;
+    background: var(--color-primary);
+    border-radius: 2px;
+    margin: var(--space-2) 0;
+    width: 100%;
+    pointer-events: none;
+    transition: all 0.2s;
+}
+
+.toolDraggable {
+    cursor: grab;
+}
+
+.toolDraggable:active {
+    cursor: grabbing;
 }
